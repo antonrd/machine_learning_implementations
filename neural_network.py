@@ -284,16 +284,16 @@ class NeuralNetworkImpl:
             self.adams_b[i] = self.adam_beta2 * self.adams_b[i] + (1 - self.adam_beta2) * (db[i] * db[i])
             adams_corrb = self.adams_b[i] / (1 - self.adam_beta2 ** self.adam_counter)
 
-            self.w[i] = self.w[i] - self.alpha * (adamv_corrw / np.sqrt(adams_corrw + self.adam_epsilon))
-            self.b[i] = self.b[i] - self.alpha * (adamv_corrb / np.sqrt(adams_corrb + self.adam_epsilon))
+            self.w[i] = self.w[i] - self.alpha * (adamv_corrw / (np.sqrt(adams_corrw) + self.adam_epsilon))
+            self.b[i] = self.b[i] - self.alpha * (adamv_corrb / (np.sqrt(adams_corrb) + self.adam_epsilon))
 
     def __update_parameters_with_rmsprop(self, dw, db):
         for i in range(self.layers_count):
             self.rmsprop_w[i] = self.rmsprop_beta1 * self.rmsprop_w[i] + (1 - self.rmsprop_beta1) * (dw[i] * dw[i])
             self.rmsprop_b[i] = self.rmsprop_beta1 * self.rmsprop_b[i] + (1 - self.rmsprop_beta1) * (db[i] * db[i])
 
-            self.w[i] = self.w[i] - self.alpha * (dw[i] / np.sqrt(self.rmsprop_w[i] + self.rmsprop_epsilon))
-            self.b[i] = self.b[i] - self.alpha * (db[i] / np.sqrt(self.rmsprop_b[i] + self.rmsprop_epsilon))
+            self.w[i] = self.w[i] - self.alpha * (dw[i] / (np.sqrt(self.rmsprop_w[i]) + self.rmsprop_epsilon))
+            self.b[i] = self.b[i] - self.alpha * (db[i] / (np.sqrt(self.rmsprop_b[i]) + self.rmsprop_epsilon))
 
     def predict(self, X):
         a = self.__forward_propagation(X)
